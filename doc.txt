@@ -1,4 +1,5 @@
-https://chatgpt.com/share/67792834-88b0-8000-bc60-d4e7f24ed699----> git related prompt
+https://chatgpt.com/share/67792834-88b0-8000-bc60-d4e7f24ed699----> Git related prompt
+https://chatgpt.com/share/67792834-88b0-8000-bc60-d4e7f24ed699--> JWT prompt
 
 Commands to remove untracked files even after using .gitignore file.
 git rm --cached -r target/
@@ -7,3 +8,53 @@ git rm --cached .project
 git rm --cached .idea/
 git commit -m "Remove build files and update .gitignore"
 git push origin <branch-name>
+
+==================================
+JWT token generator code 
+=============================
+@Component
+public class JwtRequestFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String token = extractTokenFromRequest(request);
+
+        if (token != null && jwtTokenUtil.validateToken(token)) {
+            String username = jwtTokenUtil.getUsernameFromToken(token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
+        filterChain.doFilter(request, response);
+    }
+
+    private String extractTokenFromRequest(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7);
+        }
+        return null;
+    }
+}
+
+
+==========================
+https://github.com/ashokitschool/spring_boot_kafka_producer/
+https://github.com/ashokitschool/SpringBoot_JWT_App/
+https://github.com/ashokitschool/springboot_register_login_security
+https://www.javainuse.com/boot3/sec/9
+https://www.javainuse.com/boot3/sec/9
+https://chatgpt.com/share/677848d4-3554-8000-b46a-caa8d0f94487
+https://dzone.com/articles/spring-boot-swagger-3-openapi-3-security-exampleba
+https://www.javainuse.com/boot3/sec/5
+https://chatgpt.com/share/6778c917-0c00-8000-8407-283648f31c2c
+https://chatgpt.com/share/6778c917-0c00-8000-8407-283648f31c2c
+https://www.javainuse.com/boot3/sec/8

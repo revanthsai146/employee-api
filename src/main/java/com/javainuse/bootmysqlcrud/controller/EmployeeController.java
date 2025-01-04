@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.javainuse.bootmysqlcrud.dto.EmployeeDto;
+import com.javainuse.bootmysqlcrud.entity.DAOUser;
 import com.javainuse.bootmysqlcrud.exception.EmployeeNotFoundException;
+import com.javainuse.bootmysqlcrud.repository.UserRepository;
 import com.javainuse.bootmysqlcrud.service.EmployeeService;
 
 @RestController
@@ -22,6 +25,12 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
+
+	@Autowired
+	private BCryptPasswordEncoder pwEncoder;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@PostMapping(value = "/employee")
 	public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto) {
@@ -58,5 +67,17 @@ public class EmployeeController {
 			throws EmployeeNotFoundException {
 		EmployeeDto createdEmployee = employeeService.updateEmployee(employeeDto);
 		return new ResponseEntity<>(createdEmployee, HttpStatus.OK);
+	}
+
+	@PostMapping("/register")
+	public ResponseEntity<String> saveCustomer(@RequestBody DAOUser daoUser) {
+		String encodedPwd = pwEncoder.encode(daoUser.getPassword());
+		daoUser.setPassword(encodedPwd);
+
+		userRepository.save(daoUser);
+
+		return new ResponseEntity<>("User Registered", HttpStatus.CREATED);
+
+
 	}
 }

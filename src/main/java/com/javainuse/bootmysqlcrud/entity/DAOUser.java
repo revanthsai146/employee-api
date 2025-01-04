@@ -19,7 +19,7 @@ public class DAOUser {
 	@Column
 	private String username;
 	@Column
-	@JsonIgnore
+	//@JsonIgnore
 	private String password;
 
 	public String getUsername() {
