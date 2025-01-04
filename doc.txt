@@ -1,1 +1,9 @@
 https://chatgpt.com/share/67792834-88b0-8000-bc60-d4e7f24ed699----> git related prompt
+
+Commands to remove untracked files even after using .gitignore file.
+git rm --cached -r target/
+git rm --cached .classpath
+git rm --cached .project
+git rm --cached .idea/
+git commit -m "Remove build files and update .gitignore"
+git push origin <branch-name>
