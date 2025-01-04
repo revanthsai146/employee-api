@@ -1,0 +1,17 @@
+# Ignore target directory (build output)
+/target/
+
+# Ignore Eclipse project files
+.classpath
+.project
+.settings/
+
+# Ignore IntelliJ IDEA project files
+.idea/
+
+# Ignore Maven wrapper files
+.mvn/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
